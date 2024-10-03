@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -18,8 +19,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
 rootProject.name = "Tasky"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 include(":core:data")
 include(":core:presentation:designsystem")
