@@ -14,7 +14,8 @@ sealed interface DataError : Error {
         NO_INTERNET_CONNECTION,
         SERVER_ERROR,
         SERIALIZATION_ERROR,
-        UNKNOWN_ERROR
+        UNKNOWN_ERROR,
+        EMPTY_RESPONSE
     }
 
     // A group of constants representing different local storage-related errors.

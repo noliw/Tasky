@@ -35,6 +35,10 @@ fun DataError.toUiText(): UiText {
         DataError.Network.SERIALIZATION_ERROR -> UiText.StringResource(
             R.string.error_serialization_error
         )
+        // Maps the SERIALIZATION_ERROR error to a specific string resource.
+        DataError.Network.EMPTY_RESPONSE -> UiText.StringResource(
+            R.string.empty_response
+        )
         // Catches any other errors and maps them to a generic unknown error string resource.
         else -> UiText.StringResource(
             R.string.error_unknown

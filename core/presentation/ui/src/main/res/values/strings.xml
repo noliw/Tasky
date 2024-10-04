@@ -8,4 +8,5 @@
     <string name="error_server_error">Oops something with the server went wrong, please try again</string>
     <string name="error_serialization_error">Oops, couldn\'t parse Json data.</string>
     <string name="error_unknown">An unknown error occured</string>
+    <string name="empty_response">The Response is null</string>
 </resources>
