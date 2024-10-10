@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TaskyBackground(
-    blackHeightFraction: Float = 0.16f, // Default to 16% height for the black container
-    content: @Composable () -> Unit, // Slot for dynamic content
-    toolbar: @Composable () -> Unit, // Slot for toolbar composable
-    isBlackToolBar: Boolean = true // Determines whether toolbar is black
+    blackHeightFraction: Float = 0.16f,
+    isBlackToolBar: Boolean = true,
+    content: @Composable () -> Unit,
+    toolbar: @Composable () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         // Toolbar container
@@ -37,7 +37,7 @@ fun TaskyBackground(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(blackHeightFraction) // Dynamic height based on fraction
+                    .weight(blackHeightFraction)
                     .background(if (isBlackToolBar) Color.Black else Color.White)
             ) {
                 toolbar() // Custom toolbar provided by the user
@@ -47,9 +47,9 @@ fun TaskyBackground(
                 HorizontalDivider(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp), // Fills the width of the Box
-                    thickness = 2.dp,   // Border thickness
-                    color = Color.Gray // Border color
+                        .padding(horizontal = 16.dp),
+                    thickness = 2.dp,
+                    color = Color.Gray
                 )
             }
 
@@ -61,9 +61,9 @@ fun TaskyBackground(
                     .weight(1f)
                     .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
                     .background(Color.White)
-                // Align this white container at the bottom
+
             ) {
-                content() // Inject dynamic content into the white container
+                content()
             }
         }
     }
@@ -71,10 +71,10 @@ fun TaskyBackground(
 
 @Preview(showBackground = true)
 @Composable
-fun TaskyBackgroundPreview() {
+private fun TaskyBackgroundPreview() {
     TaskyBackground(
-         // Black toolbar takes up 20% of the screen height
-        isBlackToolBar = true, // Set the toolbar to be black
+
+        isBlackToolBar = true,
         toolbar = {
             Column(
                 modifier = Modifier
