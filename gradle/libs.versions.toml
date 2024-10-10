@@ -18,7 +18,7 @@ coreSplashscreen = "1.0.1"
 activityCompose = "1.9.2"
 lifecycleRuntimeKtx = "2.8.6"
 materialIconsExtended = "1.7.2"
-navigationCompose = "2.8.1"
+navigationCompose = "2.8.2"
 securityCryptoKtx = "1.1.0-alpha06"
 annotation = "1.8.2"
 work = "2.9.1"
@@ -40,7 +40,7 @@ bson = "4.11.1"
 
 # Dependency Injection (DI)
 dagger = "2.52"
-hilt-navigation-compose = "1.0.0"
+hilt-navigation-compose = "1.2.0"
 
 # Google Play and Maps
 core = "1.10.3"
@@ -118,7 +118,8 @@ dagger-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger" }
 androidx-hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigationFragment" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltNavigationFragment" }
-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "hilt-navigation-compose" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+
 
 # ----------- Utility Libraries -----------
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
@@ -204,5 +205,5 @@ dagger = [
     "dagger-hilt-compiler",
     "androidx-hilt-work",
     "androidx-hilt-navigation-fragment",
-    "hilt-navigation-compose"
+    "hilt-navigation-compose",
 ]
