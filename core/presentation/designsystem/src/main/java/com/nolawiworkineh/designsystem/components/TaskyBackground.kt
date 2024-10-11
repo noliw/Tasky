@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 fun TaskyBackground(
     blackHeightFraction: Float = 0.16f,
     isBlackToolBar: Boolean = true,
-    content: @Composable () -> Unit,
-    toolbar: @Composable () -> Unit
+    toolbar: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         // Toolbar container

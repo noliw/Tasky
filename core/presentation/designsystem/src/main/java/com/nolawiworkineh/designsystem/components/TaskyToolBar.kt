@@ -215,17 +215,16 @@ fun TaskyTopAppBarWithDropdownMenuPreview() {
 fun TaskyTopAppBarWithCustomEndIconPreview() {
     TaskyTopAppBar(
         title = "Task Overview",
-        showEndIcon = true,
+        showEndIcon = false,
         isBlackToolBar = false,
         isWhiteText = false,
-        endIcon = {
-            IconButton(onClick = { /* Handle custom end icon action */ }) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More",
-                    tint = Color.Black
-                )
-            }
+        customTitle = {
+            Text(
+                text = "Custom Title",
+                style = MaterialTheme.typography.headlineLarge,
+                color = Color.Black
+            )
         }
+
     )
 }
