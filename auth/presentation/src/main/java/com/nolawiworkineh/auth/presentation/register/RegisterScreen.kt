@@ -1,19 +1,36 @@
 package com.nolawiworkineh.auth.presentation.register
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 
 
+@Composable
+fun RegisterScreenRoot(
+    navController: NavController,
+    viewModel: RegisterViewModel = hiltViewModel()
+) {
+    RegisterScreen(
+        state = viewModel.state,
+        onAction = viewModel::onAction
+    )
+}
 
+@Composable
 
+private fun RegisterScreen(
+    state: RegisterState,
+    onAction: (RegisterAction) -> Unit
+) {
+
+}
+
+@Preview
+@Composable
+private fun RegisterScreenPreview() {
+        RegisterScreen(
+            state = RegisterState(),
+            onAction = {}
+        )
+}
