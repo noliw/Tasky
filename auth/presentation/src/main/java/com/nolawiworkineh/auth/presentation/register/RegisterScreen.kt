@@ -1,10 +1,11 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
 package com.nolawiworkineh.auth.presentation.register
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,8 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.nolawiworkineh.auth.presentation.R
 import com.nolawiworkineh.designsystem.components.TaskyBackground
 import com.nolawiworkineh.designsystem.components.TaskyTopAppBar
 
@@ -39,14 +43,16 @@ private fun RegisterScreen(
         blackHeightFraction = 0.16f,
         toolbar = {
             TaskyTopAppBar(
-                modifier = Modifier.fillMaxSize().background(Color.Red),
+                modifier = Modifier.fillMaxSize().padding(0.dp),
                 customTitle = {
-                   Box(
-                       modifier = Modifier.fillMaxSize(),
-                      contentAlignment = Alignment.Center
-                   ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Text(
-                            text = "Create your account",
+                            text = stringResource(R.string.create_account),
                             color = Color.White,
                             style = MaterialTheme.typography.headlineLarge,
 
@@ -55,6 +61,7 @@ private fun RegisterScreen(
                 }
             )
         }) {
+
 
     }
 

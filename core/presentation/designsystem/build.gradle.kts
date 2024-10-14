@@ -14,6 +14,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.ui.graphics.android)
     implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.foundation.layout)
     debugImplementation(libs.androidx.compose.ui.tooling)
     api(libs.androidx.compose.material3)
 }

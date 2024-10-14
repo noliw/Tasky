@@ -27,44 +27,42 @@ fun TaskyBackground(
     toolbar: @Composable () -> Unit,
     content: @Composable () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        // Toolbar container
-        Column(
+    // Toolbar container
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(if (isBlackToolBar) Color.Black else Color.White)
+    ) {
+        Box(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .weight(blackHeightFraction)
                 .background(if (isBlackToolBar) Color.Black else Color.White)
         ) {
-            Box(
+            toolbar() // Custom toolbar provided by the user
+        }
+
+        if (!isBlackToolBar) {
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(blackHeightFraction)
-                    .background(if (isBlackToolBar) Color.Black else Color.White)
-            ) {
-                toolbar() // Custom toolbar provided by the user
-            }
-
-            if (!isBlackToolBar) {
-                HorizontalDivider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    thickness = 2.dp,
-                    color = Color.Gray
-                )
-            }
+                    .padding(horizontal = 16.dp),
+                thickness = 2.dp,
+                color = Color.Gray
+            )
+        }
 
 
-            // White container with customizable rounded corners drawn on top of the toolbar
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-                    .background(Color.White)
+        // White container with customizable rounded corners drawn on top of the toolbar
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                .background(Color.White)
 
-            ) {
-                content()
-            }
+        ) {
+            content()
         }
     }
 }
@@ -78,8 +76,7 @@ private fun TaskyBackgroundPreview() {
         toolbar = {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -91,7 +88,7 @@ private fun TaskyBackgroundPreview() {
                     color = Color.White,
                     style = MaterialTheme.typography.headlineMedium,
 
-                )
+                    )
             }
         },
         content = {

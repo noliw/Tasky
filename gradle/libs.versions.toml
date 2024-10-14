@@ -64,6 +64,7 @@ projectMinSdkVersion = "25"
 projectTargetSdkVersion = "34"
 projectCompileSdkVersion = "34"
 projectVersionCode = "1"
+foundationLayout = "1.0.1"
 
 # ----------- Core Libraries -----------
 [libraries]
@@ -142,6 +143,7 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 androidx-ui-graphics-android = { group = "androidx.compose.ui", name = "ui-graphics-android", version.ref = "uiGraphicsAndroid" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+androidx-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 
 # ----------- Plugins Section -----------
 [plugins]
@@ -192,7 +194,6 @@ retrofit = [
 ]
 dagger = [
     "dagger-hilt-android",
-    "dagger-hilt-android-compiler",
     "dagger-hilt-android-testing",
     "androidx-hilt-work",
     "hilt-navigation-compose",
