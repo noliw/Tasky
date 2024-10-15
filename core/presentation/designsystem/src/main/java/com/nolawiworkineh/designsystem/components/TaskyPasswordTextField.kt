@@ -2,27 +2,20 @@ package com.nolawiworkineh.designsystem.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.TextObfuscationMode
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,69 +30,52 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nolawiworkineh.core.presentation.designsystem.R
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import com.nolawiworkineh.designsystem.Theme.EyeClosedIcon
+import com.nolawiworkineh.designsystem.Theme.EyeOpenIcon
+import com.nolawiworkineh.designsystem.Theme.TaskyLightGray
+import com.nolawiworkineh.designsystem.Theme.TaskyRed
+import com.nolawiworkineh.designsystem.Theme.TaskyTextGray
+import com.nolawiworkineh.designsystem.Theme.TaskyTheme
 
 @Composable
-fun PacePalPasswordTextField(
+fun TaskyPasswordTextField(
     state: TextFieldState,
     isPasswordVisible: Boolean,
     onTogglePasswordVisibility: () -> Unit,
     hint: String,
-    title: String?,
+    isValid: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     var isFocused by remember {
         mutableStateOf(false)
     }
-    var isValid by remember {
-        mutableStateOf(false)
-    }
     Column(
         modifier = modifier
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            if (title != null) {
-                Text(
-                    text = title,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(4.dp))
         BasicSecureTextField(
             state = state,
             textObfuscationMode = if (isPasswordVisible) {
                 TextObfuscationMode.Visible
             } else TextObfuscationMode.Hidden,
             textStyle = LocalTextStyle.current.copy(
-                color = MaterialTheme.colorScheme.onBackground
+                color = TaskyTextGray
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password
             ),
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
+            cursorBrush = SolidColor(TaskyTextGray),
             modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(8.dp))
                 .background(
-                    if (isFocused) {
-                        MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.05f
-                        )
-                    } else {
-                        MaterialTheme.colorScheme.surface
-                    }
+                    TaskyLightGray
                 )
                 .border(
                     width = 1.dp,
-                    color = if (isFocused) {
-                        MaterialTheme.colorScheme.primary
+                    color = if (isFocused && !isValid) {
+                        TaskyRed
                     } else {
                         Color.Transparent
                     },
@@ -123,7 +99,7 @@ fun PacePalPasswordTextField(
                         if (state.text.isEmpty() && !isFocused) {
                             Text(
                                 text = hint,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                color = TaskyTextGray.copy(
                                     alpha = 0.4f
                                 ),
                                 modifier = Modifier.fillMaxWidth()
@@ -134,18 +110,33 @@ fun PacePalPasswordTextField(
                     IconButton(onClick = onTogglePasswordVisibility) {
                         Icon(
                             imageVector = if (!isPasswordVisible) {
-                                Icons.Filled.Visibility
-                            } else EyeOpenedIcon,
+                                EyeClosedIcon
+                            } else EyeOpenIcon,
                             contentDescription = if (isPasswordVisible) {
                                 stringResource(id = R.string.show_password)
                             } else {
                                 stringResource(id = R.string.hide_password)
                             },
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = TaskyTextGray
                         )
                     }
                 }
             }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PacePalTextFieldPreview() {
+    TaskyTheme {
+        TaskyPasswordTextField(
+            state = rememberTextFieldState(),
+            hint = "password",
+            modifier = Modifier
+                .fillMaxWidth(),
+            isPasswordVisible = false,
+            onTogglePasswordVisibility = {}
         )
     }
 }

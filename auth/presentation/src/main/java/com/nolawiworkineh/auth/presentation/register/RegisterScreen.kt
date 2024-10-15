@@ -5,7 +5,6 @@ package com.nolawiworkineh.auth.presentation.register
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.nolawiworkineh.auth.presentation.R
 import com.nolawiworkineh.designsystem.components.TaskyBackground
@@ -43,7 +41,7 @@ private fun RegisterScreen(
         blackHeightFraction = 0.16f,
         toolbar = {
             TaskyTopAppBar(
-                modifier = Modifier.fillMaxSize().padding(0.dp),
+                modifier = Modifier.fillMaxSize(),
                 customTitle = {
                     Column(
                         modifier = Modifier
@@ -61,7 +59,6 @@ private fun RegisterScreen(
                 }
             )
         }) {
-
 
     }
 
