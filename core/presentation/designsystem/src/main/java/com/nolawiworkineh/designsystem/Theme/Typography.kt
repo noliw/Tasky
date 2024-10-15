@@ -1,4 +1,4 @@
-package com.nolawiworkineh.tasky.ui.theme
+package com.nolawiworkineh.designsystem.Theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
