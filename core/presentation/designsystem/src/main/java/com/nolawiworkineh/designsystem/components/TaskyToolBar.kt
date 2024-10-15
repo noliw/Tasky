@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -42,6 +41,7 @@ import com.nolawiworkineh.designsystem.components.util.DropDownMenuItem
 
 @Composable
 fun TaskyTopAppBar(
+    modifier: Modifier = Modifier,
     title: String = "", // Default string title
     showBackButton: Boolean = false,
     isBlackToolBar: Boolean = true, // Determines whether toolbar is black
@@ -62,7 +62,7 @@ fun TaskyTopAppBar(
 
         title = {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
                 if (customTitle != null) {
@@ -71,13 +71,14 @@ fun TaskyTopAppBar(
                     Text(
                         text = title,
                         color = if (isWhiteText) Color.White else Color.Black,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.headlineLarge
                     )
                 }
             }
         },
 
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
+
 
         scrollBehavior = scrollBehavior,
 
