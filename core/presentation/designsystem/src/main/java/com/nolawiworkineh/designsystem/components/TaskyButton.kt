@@ -1,10 +1,9 @@
 package com.nolawiworkineh.designsystem.components
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -12,15 +11,17 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nolawiworkineh.designsystem.Theme.TaskyBlack
 import com.nolawiworkineh.designsystem.Theme.TaskyGreen
 import com.nolawiworkineh.designsystem.Theme.TaskyLightGray
 import com.nolawiworkineh.designsystem.Theme.TaskyTextGray
+import com.nolawiworkineh.designsystem.Theme.TaskyTheme
 import com.nolawiworkineh.designsystem.Theme.TaskyWhite
 
 @Composable
@@ -33,34 +34,31 @@ fun TaskyButton(
 ) {
     Button(
         onClick = onClick,
-        enabled = enabled,
+        enabled = enabled && !isLoading,
+        shape = RoundedCornerShape(50),
         colors = ButtonDefaults.buttonColors(
             containerColor = TaskyBlack,
             contentColor = TaskyWhite,
             disabledContainerColor = TaskyLightGray,
             disabledContentColor = TaskyTextGray
         ),
-        shape = RoundedCornerShape(90f),
+        contentPadding = PaddingValues(vertical = 12.dp, horizontal = 24.dp),
         modifier = modifier
             .height(IntrinsicSize.Min)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            contentAlignment = Alignment.Center
-        ) {
+        if (isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier
-                    .alpha(if (isLoading) 1f else 0f),
-                strokeWidth = 1.5.dp,
+                    .size(24.dp)
+                    .semantics { contentDescription = "Loading" },
+                strokeWidth = 2.dp,
                 color = TaskyGreen
             )
+        } else {
             Text(
                 text = text,
-                modifier = Modifier
-                    .alpha(if (isLoading) 0f else 1f),
-                style = MaterialTheme.typography.displaySmall,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Medium,
                 color = if (enabled) TaskyWhite else TaskyTextGray
             )
         }
@@ -70,10 +68,12 @@ fun TaskyButton(
 @Preview(showBackground = false)
 @Composable
 fun TaskyButtonPreview() {
-    TaskyButton(
-        text = "LOG IN",
-        isLoading = false,
-        enabled = true,
-        onClick = {}
-    )
+    TaskyTheme {
+        TaskyButton(
+            text = "LOG IN",
+            isLoading = false,
+            enabled = false,
+            onClick = {}
+        )
+    }
 }

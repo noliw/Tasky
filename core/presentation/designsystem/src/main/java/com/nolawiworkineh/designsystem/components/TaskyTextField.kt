@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,6 +41,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nolawiworkineh.designsystem.Theme.TaskyBlack
+import com.nolawiworkineh.designsystem.Theme.TaskyGray
+import com.nolawiworkineh.designsystem.Theme.TaskyGreen
+import com.nolawiworkineh.designsystem.Theme.TaskyLightGray
+import com.nolawiworkineh.designsystem.Theme.TaskyTextGray
 
 @Composable
 fun TaskyTextField(
@@ -49,73 +55,69 @@ fun TaskyTextField(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
 ) {
-    var isFocused by remember {
-        mutableStateOf(false)
-    }
+    var isFocused by remember { mutableStateOf(false) }
 
-        BasicTextField(
-            state = state,
-            textStyle = LocalTextStyle.current.copy(
-                color = Color.Black
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType
-            ),
-            lineLimits = TextFieldLineLimits.SingleLine,
-            cursorBrush = SolidColor(Color.Black),
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.LightGray.copy(alpha = 0.4f))
-                .border(
-                    width = 1.dp,
-                    color = Color.Transparent,
-                    shape = RoundedCornerShape(16.dp)
-                )
-                .padding(12.dp)
-                .onFocusChanged {
-                    isFocused = it.isFocused
-                },
-            decorator = { innerBox ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+    val shape = RoundedCornerShape(8.dp)
+
+    val borderColor = if (isFocused) TaskyTextGray else TaskyLightGray
+
+    BasicTextField(
+        state = state,
+        textStyle = LocalTextStyle.current.copy(
+            color = TaskyBlack
+        ),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType
+        ),
+        lineLimits = TextFieldLineLimits.SingleLine,
+        cursorBrush = SolidColor(TaskyTextGray),
+        modifier = modifier
+            .clip(shape)
+            .background(TaskyLightGray)
+            .border(
+                width = 1.dp,
+                color = borderColor,
+                shape = shape
+            )
+            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .height(48.dp)
+            .onFocusChanged {
+                isFocused = it.isFocused
+            },
+        decorator = { innerBox ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier.weight(1f)
                 ) {
-
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                    ) {
-                        if (state.text.isEmpty() && !isFocused) {
-                            Text(
-                                text = hint,
-                                color = Color.Gray.copy(
-                                    alpha = 0.7f
-                                ),
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                        innerBox()
-
-
-                    }
-                    if (endIcon != null) {
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Icon(
-                            imageVector = endIcon,
-                            contentDescription = null,
-                            tint = Color.Green.copy(
-                                alpha = 0.5f
-                            ),
-                            modifier = Modifier
-                                .padding(end = 8.dp)
+                    if (state.text.isEmpty() && !isFocused) {
+                        Text(
+                            text = hint,
+                            color = TaskyGray,
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
+                    innerBox()
                 }
+                if (endIcon != null) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Icon(
+                        imageVector = endIcon,
+                        contentDescription = null,
+                        tint = TaskyGreen,
+                        modifier = Modifier
+                            .padding(end = 8.dp)
 
+                    )
+                }
             }
-        )
+        }
+    )
 }
+
 
 
 @Preview(showBackground = true)
