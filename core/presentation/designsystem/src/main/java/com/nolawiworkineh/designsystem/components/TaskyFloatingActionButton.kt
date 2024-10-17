@@ -1,5 +1,6 @@
 package com.nolawiworkineh.designsystem.components
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -23,7 +24,7 @@ fun TaskyFloatingActionButton(
 ) {
     FloatingActionButton(
         onClick = onClick,
-        modifier = modifier.size(56.dp),
+        modifier = modifier.padding(12.dp),
         containerColor = TaskyBlack,
         contentColor = TaskyWhite,
     ) {
