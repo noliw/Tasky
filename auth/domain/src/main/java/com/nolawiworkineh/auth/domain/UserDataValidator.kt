@@ -11,11 +11,10 @@ class UserDataValidator(private val patternValidator: PatternValidator) {
     }
 
     fun validatePassword(password: String): PasswordValidationState {
-        val trimmedPassword = password.trim()
-        val hasMinLength = trimmedPassword.length >= MIN_PASSWORD_LENGTH
-        val hasUppercase = trimmedPassword.any { it.isUpperCase() }
-        val hasLowercase = trimmedPassword.any { it.isLowerCase() }
-        val hasDigit = trimmedPassword.any { it.isDigit() }
+        val hasMinLength = password.length >= MIN_PASSWORD_LENGTH
+        val hasUppercase = password.any { it.isUpperCase() }
+        val hasLowercase = password.any { it.isLowerCase() }
+        val hasDigit = password.any { it.isDigit() }
 
         return PasswordValidationState(
             hasMinLength = hasMinLength,
