@@ -3,14 +3,20 @@ package com.nolawiworkineh.auth.data
 import com.nolawiworkineh.auth.domain.PatternValidator
 
 object NamePatternValidator : PatternValidator {
+    private const val MIN = 4
+    private const val MAX = 50
     override fun matches(value: String): Boolean {
-        val name = value.trim()
+        val trimmed = value.trim()
+        val words = trimmed.split("")
 
-        if (name.length !in 4..50) {
-            return false
+        val hasValidLength = trimmed.length in MIN..MAX
+        val hasTwoWords = words.size >= 2
+        val hasOnlyLetters = words.all { word ->
+            word.all { char ->
+                char.isLetter()
+            }
         }
-        // The regex pattern checks for at least two words with letters only, separated by space
-        val namePattern = "^[A-Za-z]+(?:\\s[A-Za-z]+)+$".toRegex()
-        return namePattern.matches(value.trim())
+
+        return hasTwoWords && hasOnlyLetters && hasValidLength
     }
 }
