@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.nolawiworkineh.designsystem.Theme.ArrowLeftIcon
 import com.nolawiworkineh.designsystem.Theme.CheckMarkIcon
@@ -34,7 +35,7 @@ import com.nolawiworkineh.designsystem.components.TaskyTopAppBar
 
 @Composable
 fun RegisterScreenRoot(
-    navController: NavController,
+    OnNavigateBackToLoginClick: () -> Unit,
     viewModel: RegisterViewModel
 ) {
     RegisterScreen(
