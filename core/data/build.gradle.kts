@@ -14,4 +14,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(projects.core.database)
     implementation(projects.core.domain)
+    implementation(libs.androidx.media3.exoplayer.dash)
 }
