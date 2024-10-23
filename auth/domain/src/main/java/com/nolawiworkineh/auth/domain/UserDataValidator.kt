@@ -1,13 +1,14 @@
 package com.nolawiworkineh.auth.domain
 
-class UserDataValidator(private val patternValidator: PatternValidator) {
+class UserDataValidator(private val emailPatternValidator: PatternValidator,
+                        private val namePatternValidator: PatternValidator) {
 
     fun isValidName(name: String): Boolean {
-        return patternValidator.matches(name.trim())
+        return namePatternValidator.matches(name.trim())
     }
 
     fun isValidEmail(email: String): Boolean {
-        return patternValidator.matches(email.trim())
+        return emailPatternValidator.matches(email.trim())
     }
 
     fun validatePassword(password: String): PasswordValidationState {

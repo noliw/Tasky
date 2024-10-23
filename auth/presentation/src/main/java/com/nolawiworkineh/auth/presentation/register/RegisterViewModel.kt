@@ -4,19 +4,23 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nolawiworkineh.auth.domain.UserDataValidator
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
-class RegisterViewModel(
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
     private val userDataValidator: UserDataValidator,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(RegisterState())
-    var state = _state.onStart {
+    var state: StateFlow<RegisterState> = _state.onStart {
         observeNameChanges()
         observeEmailChanges()
         observePasswordChanges()
