@@ -1,7 +1,10 @@
 package com.nolawiworkineh.auth.data.di
 
+import com.nolawiworkineh.auth.data.AuthApiService
+import com.nolawiworkineh.auth.data.AuthRepositoryImpl
 import com.nolawiworkineh.auth.data.EmailPatternValidator
 import com.nolawiworkineh.auth.data.NamePatternValidator
+import com.nolawiworkineh.auth.domain.AuthRepository
 import com.nolawiworkineh.auth.domain.PatternValidator
 import com.nolawiworkineh.auth.domain.UserDataValidator
 import dagger.Module
@@ -31,5 +34,13 @@ object AuthModule {
         namePatternValidator: PatternValidator
     ): UserDataValidator {
         return UserDataValidator(emailPatternValidator, namePatternValidator)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(
+        authApiService: AuthApiService
+    ): AuthRepository {
+        return AuthRepositoryImpl(authApiService)
     }
 }

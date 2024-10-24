@@ -1,6 +1,5 @@
 package com.nolawiworkineh.data.networking.di
 
-import com.nolawiworkineh.data.networking.ApiActionsService
 import com.nolawiworkineh.data.networking.HttpClientFactory
 import dagger.Module
 import dagger.Provides
@@ -17,11 +16,5 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit = HttpClientFactory().create()
-
-    @Provides
-    @Singleton
-    fun provideApiActionsService(retrofit: Retrofit): ApiActionsService {
-        return retrofit.create(ApiActionsService::class.java)
-    }
 }
 
