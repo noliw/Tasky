@@ -11,27 +11,35 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class EmailValidator
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class NameValidator
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AuthModule {
 
+    @EmailValidator
     @Provides
-    @Singleton
     fun provideEmailPatternValidator(): PatternValidator = EmailPatternValidator
 
 
+    @NameValidator
     @Provides
-    @Singleton
     fun provideNamePatternValidator(): PatternValidator = NamePatternValidator
-
 
     @Provides
     @Singleton
     fun provideUserDataValidator(
-        emailPatternValidator: PatternValidator,
-        namePatternValidator: PatternValidator
+        @EmailValidator emailPatternValidator: PatternValidator,
+        @NameValidator namePatternValidator: PatternValidator
     ): UserDataValidator {
         return UserDataValidator(emailPatternValidator, namePatternValidator)
     }
