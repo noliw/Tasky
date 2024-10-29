@@ -1,5 +1,3 @@
-@file:Suppress("PLUGIN_IS_NOT_ENABLED")
-
 package com.nolawiworkineh.auth.presentation
 
 import kotlinx.serialization.Serializable

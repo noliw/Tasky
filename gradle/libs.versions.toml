@@ -24,7 +24,7 @@ navigationCompose = "2.8.3"
 securityCryptoKtx = "1.1.0-alpha06"
 annotation = "1.8.2"
 work = "2.9.1"
-ksp = "2.0.0-1.0.22"
+ksp = "2.0.20-1.0.25"
 
 # Compose and UI
 composeBom = "2024.10.00"
@@ -157,6 +157,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 room = { id = "androidx.room", version.ref = "room" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+hilt-android-gradle = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 
 # Custom Tasky plugins (unspecified versions)
 tasky-android-application = { id = "tasky.android.application", version = "unspecified" }
