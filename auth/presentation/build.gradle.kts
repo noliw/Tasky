@@ -12,6 +12,10 @@ android {
 dependencies {
     implementation(projects.auth.domain)
     implementation(projects.core.domain)
+    // Di
     implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.hilt.navigation.compose)
     ksp(libs.dagger.hilt.android.compiler)
+    testImplementation(libs.dagger.hilt.android.testing)
 }

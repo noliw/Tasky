@@ -24,7 +24,7 @@ class HttpClientFactory {
         // Header Interceptor for adding API key
         val headerInterceptor = Interceptor { chain ->
             val request = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer ${BuildConfig.API_KEY}")
+                .header("Authorization", "Bearer ${BuildConfig.API_KEY}")
                 .build()
             chain.proceed(request)
         }

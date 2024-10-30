@@ -42,7 +42,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.nolawiworkineh.designsystem.Theme.TaskyBlack
 import com.nolawiworkineh.designsystem.Theme.TaskyGray
 import com.nolawiworkineh.designsystem.Theme.TaskyGreen
@@ -58,15 +57,16 @@ fun TaskyTextField(
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
     isError: Boolean = false,
-    errorMessage: String? = null,
     imeAction: ImeAction = ImeAction.Done,
 ) {
     var isFocused by remember { mutableStateOf(false) }
+    var hasBeenFocused by remember { mutableStateOf(false) }
+    var showErrorIndicator by remember { mutableStateOf(false) }
 
     val shape = RoundedCornerShape(8.dp)
 
     val borderColor = when {
-        isError -> TaskyRed
+        showErrorIndicator -> TaskyRed
         isFocused -> TaskyTextGray
         else -> TaskyLightGray
     }
@@ -92,8 +92,17 @@ fun TaskyTextField(
             )
             .padding(horizontal = 12.dp, vertical = 8.dp)
             .height(48.dp)
-            .onFocusChanged {
-                isFocused = it.isFocused
+            .onFocusChanged { focusState ->
+                isFocused = focusState.isFocused
+
+                if (isFocused) {
+                    hasBeenFocused = true
+                    showErrorIndicator = false // Reset error indicator when focused
+                }
+
+                if (!isFocused && hasBeenFocused) {
+                    showErrorIndicator = isError
+                }
             },
         decorator = { innerBox ->
             Row(
@@ -101,14 +110,6 @@ fun TaskyTextField(
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (isError && errorMessage != null) {
-                    Text(
-                        text = errorMessage,
-                        color = Color.Red,
-                        style = LocalTextStyle.current.copy(fontSize = 12.sp),
-                        modifier = Modifier.padding(top = 4.dp)
-                    )
-                }
                 Box(
                     modifier = Modifier.weight(1f)
                 ) {
