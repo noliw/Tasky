@@ -38,13 +38,16 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.nolawiworkineh.designsystem.Theme.TaskyBlack
 import com.nolawiworkineh.designsystem.Theme.TaskyGray
 import com.nolawiworkineh.designsystem.Theme.TaskyGreen
 import com.nolawiworkineh.designsystem.Theme.TaskyLightGray
+import com.nolawiworkineh.designsystem.Theme.TaskyRed
 import com.nolawiworkineh.designsystem.Theme.TaskyTextGray
 
 @Composable
@@ -54,12 +57,19 @@ fun TaskyTextField(
     hint: String,
     modifier: Modifier = Modifier,
     keyboardType: KeyboardType = KeyboardType.Text,
+    isError: Boolean = false,
+    errorMessage: String? = null,
+    imeAction: ImeAction = ImeAction.Done,
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
     val shape = RoundedCornerShape(8.dp)
 
-    val borderColor = if (isFocused) TaskyTextGray else TaskyLightGray
+    val borderColor = when {
+        isError -> TaskyRed
+        isFocused -> TaskyTextGray
+        else -> TaskyLightGray
+    }
 
     BasicTextField(
         state = state,
@@ -67,7 +77,8 @@ fun TaskyTextField(
             color = TaskyBlack
         ),
         keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType
+            keyboardType = keyboardType,
+            imeAction = imeAction
         ),
         lineLimits = TextFieldLineLimits.SingleLine,
         cursorBrush = SolidColor(TaskyTextGray),
@@ -90,10 +101,18 @@ fun TaskyTextField(
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                if (isError && errorMessage != null) {
+                    Text(
+                        text = errorMessage,
+                        color = Color.Red,
+                        style = LocalTextStyle.current.copy(fontSize = 12.sp),
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
                 Box(
                     modifier = Modifier.weight(1f)
                 ) {
-                    if (state.text.isEmpty() && !isFocused) {
+                    if (state.text.isEmpty()) {
                         Text(
                             text = hint,
                             color = TaskyGray,
@@ -135,6 +154,7 @@ private fun TaskyTextFieldPreview() {
             state = rememberTextFieldState(),
             endIcon = Icons.Default.Email,
             hint = "example@test.com",
+            imeAction = ImeAction.Next,
             modifier = Modifier
                 .fillMaxWidth()
         )

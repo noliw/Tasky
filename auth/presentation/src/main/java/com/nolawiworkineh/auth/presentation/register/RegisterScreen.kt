@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,6 +87,7 @@ private fun RegisterScreen(
                 modifier = Modifier.padding(top = 16.dp),
                 state = rememberTextFieldState(),
                 hint = "Full Name",
+                imeAction = ImeAction.Next,
                 endIcon = null
 
             )
@@ -96,6 +98,7 @@ private fun RegisterScreen(
                 state = rememberTextFieldState(),
                 hint = "Email address",
                 endIcon = CheckMarkIcon,
+                imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Email
             )
 
