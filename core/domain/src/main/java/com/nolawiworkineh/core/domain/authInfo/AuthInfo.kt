@@ -1,4 +1,4 @@
-package com.nolawiworkineh.core.domain.AuthInfo
+package com.nolawiworkineh.core.domain.authInfo
 
 
 data class AuthInfo(

@@ -22,4 +22,6 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     ksp(libs.dagger.hilt.android.compiler)
     testImplementation(libs.dagger.hilt.android.testing)
+
+    implementation(libs.androidx.security.crypto.ktx)
 }

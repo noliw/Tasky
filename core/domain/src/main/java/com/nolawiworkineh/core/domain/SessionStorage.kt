@@ -1,6 +1,6 @@
 package com.nolawiworkineh.core.domain
 
-import com.nolawiworkineh.core.domain.AuthInfo.AuthInfo
+import com.nolawiworkineh.core.domain.authInfo.AuthInfo
 
 
 interface SessionStorage {

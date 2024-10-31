@@ -179,6 +179,7 @@ compose = [
     "androidx-compose-ui",
     "androidx-compose-ui-graphics",
     "androidx-compose-ui-tooling-preview",
+    "androidx-security-crypto-ktx",
     "kotlinx-serialization-json"
 ]
 compose-debug = [
