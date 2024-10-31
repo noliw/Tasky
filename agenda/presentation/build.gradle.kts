@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.tasky.android.feature.ui)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -12,4 +13,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.timber)
+    implementation(libs.dagger.hilt.android)
+    ksp(libs.dagger.hilt.android.compiler)
 }

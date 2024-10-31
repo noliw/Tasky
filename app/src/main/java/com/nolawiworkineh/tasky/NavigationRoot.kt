@@ -1,13 +1,13 @@
 package com.nolawiworkineh.tasky
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
+import com.nolawiworkineh.auth.presentation.AuthScreenRoutes
 import com.nolawiworkineh.auth.presentation.register.RegisterScreenRoot
+import com.nolawiworkineh.auth.presentation.login.LoginScreen
 
 @Composable
 fun NavigationRoot(
@@ -15,7 +15,7 @@ fun NavigationRoot(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "authFeature"
+        startDestination = AuthScreenRoutes.RegisterScreen
     ) {
         authGraph(navController)
     }
@@ -23,20 +23,17 @@ fun NavigationRoot(
 
 // Authentication Graph
 private fun NavGraphBuilder.authGraph(navController: NavHostController) {
-    navigation(
-        startDestination = "registerScreen",
-        route = "authFeature"
-    ) {
-        composable("registerScreen") {
-            // Navigate to RegisterScreen
-            RegisterScreenRoot(
-                OnNavigateBackToLoginClick = {
-                    navController.navigate("loginScreen")
-                }
-            )
-        }
-        composable("loginScreen") {
-                    Text("Login")
-        }
+
+    composable<AuthScreenRoutes.RegisterScreen> {
+        // Navigate to RegisterScreen
+        RegisterScreenRoot(
+            navigateBackToLoginClick = {
+                navController.navigate(AuthScreenRoutes.LoginScreen)
+            }
+        )
     }
+    composable<AuthScreenRoutes.LoginScreen> {
+        LoginScreen()
+    }
+
 }
