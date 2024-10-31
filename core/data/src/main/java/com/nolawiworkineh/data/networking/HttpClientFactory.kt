@@ -11,20 +11,23 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import timber.log.Timber
 
 
 class HttpClientFactory {
 
     fun create(): Retrofit {
         // Logging Interceptor
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
+        val loggingInterceptor = HttpLoggingInterceptor { message ->
+            Timber.tag("Tasky-Network").d(message)
+        }.apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
 
         // Header Interceptor for adding API key
         val headerInterceptor = Interceptor { chain ->
             val request = chain.request().newBuilder()
-                .header("Authorization", "Bearer ${BuildConfig.API_KEY}")
+                .header("x-api-key", BuildConfig.API_KEY)
                 .build()
             chain.proceed(request)
         }

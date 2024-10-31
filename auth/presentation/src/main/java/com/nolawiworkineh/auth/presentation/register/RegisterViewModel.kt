@@ -97,9 +97,9 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isRegistering = true)
             val result = authRepository.register(
-                fullName = _state.value.fullName.toString().trim(),
-                email = _state.value.email.toString().trim(),
-                password = _state.value.password.toString()
+                fullName = _state.value.fullName.text.trim().toString(),
+                email = _state.value.email.text.toString().trim(),
+                password = _state.value.password.text.toString()
             )
             _state.value = _state.value.copy(isRegistering = false)
             when (result) {
