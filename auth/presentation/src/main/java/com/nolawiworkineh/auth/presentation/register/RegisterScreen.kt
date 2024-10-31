@@ -125,9 +125,9 @@ private fun RegisterScreen(
                 modifier = Modifier.padding(top = 16.dp),
                 state = state.fullName,
                 hint = "Full Name",
-                isError = !state.isFullNameValid,
+                isError = !state.isFullNameValid && state.fullName.text.isNotEmpty(),
                 imeAction = ImeAction.Next,
-                endIcon = null
+                endIcon = if (state.isFullNameValid) CheckMarkIcon else null
 
             )
 
@@ -147,8 +147,7 @@ private fun RegisterScreen(
             TaskyPasswordTextField(
                 state = state.password,
                 hint = "Password",
-                modifier = Modifier
-                    .fillMaxWidth(),
+                isError = !state.passwordValidationState.isValidPassword && state.password.text.isNotEmpty(),
                 isPasswordVisible = state.isPasswordVisible,
                 onTogglePasswordVisibility = { onAction(RegisterAction.OnTogglePasswordVisibilityClick) }
             )
@@ -162,7 +161,6 @@ private fun RegisterScreen(
                 onClick = { onAction(RegisterAction.OnRegisterClick) }
 
             )
-            // Add other content as needed
         }
 
     }

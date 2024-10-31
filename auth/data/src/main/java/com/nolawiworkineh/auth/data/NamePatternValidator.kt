@@ -7,16 +7,14 @@ object NamePatternValidator : PatternValidator {
     private const val MAX = 50
     override fun matches(value: String): Boolean {
         val trimmed = value.trim()
-        val words = trimmed.split("")
 
         val hasValidLength = trimmed.length in MIN..MAX
-        val hasTwoWords = words.size >= 2
-        val hasOnlyLetters = words.all { word ->
-            word.all { char ->
-                char.isLetter()
-            }
+
+        val hasValidCharacters = trimmed.all { char ->
+            char.isLetter() || char.isWhitespace()
         }
 
-        return hasTwoWords && hasOnlyLetters && hasValidLength
+
+        return hasValidCharacters && hasValidLength
     }
 }

@@ -60,13 +60,12 @@ fun TaskyTextField(
     imeAction: ImeAction = ImeAction.Done,
 ) {
     var isFocused by remember { mutableStateOf(false) }
-    var hasBeenFocused by remember { mutableStateOf(false) }
-    var showErrorIndicator by remember { mutableStateOf(false) }
 
     val shape = RoundedCornerShape(8.dp)
 
     val borderColor = when {
-        showErrorIndicator -> TaskyRed
+        !isError && !isFocused && state.text.isNotEmpty() -> TaskyGreen
+        isError && !isFocused && state.text.isNotEmpty() -> TaskyRed
         isFocused -> TaskyTextGray
         else -> TaskyLightGray
     }
@@ -94,15 +93,6 @@ fun TaskyTextField(
             .height(48.dp)
             .onFocusChanged { focusState ->
                 isFocused = focusState.isFocused
-
-                if (isFocused) {
-                    hasBeenFocused = true
-                    showErrorIndicator = false // Reset error indicator when focused
-                }
-
-                if (!isFocused && hasBeenFocused) {
-                    showErrorIndicator = isError
-                }
             },
         decorator = { innerBox ->
             Row(

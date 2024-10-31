@@ -41,7 +41,7 @@ class RegisterViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), RegisterState())
 
     private fun observeNameChanges() {
-        snapshotFlow { _state.value.fullName }
+        snapshotFlow { _state.value.fullName.text }
             .onEach { currentName ->
                 val isValidName = userDataValidator.isValidName(currentName.toString())
                 _state.value = _state.value.copy(
@@ -53,7 +53,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun observeEmailChanges() {
-        snapshotFlow { _state.value.email }
+        snapshotFlow { _state.value.email.text }
             .onEach { currentEmail ->
                 val isEmailValid = userDataValidator.isValidEmail(currentEmail.toString())
                 _state.value = _state.value.copy(
@@ -65,7 +65,7 @@ class RegisterViewModel @Inject constructor(
     }
 
     private fun observePasswordChanges() {
-        snapshotFlow { _state.value.password }
+        snapshotFlow { _state.value.password.text }
             .onEach { currentPassword ->
                 val passwordValidationState =
                     userDataValidator.validatePassword(currentPassword.toString())
