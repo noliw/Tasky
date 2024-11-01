@@ -16,8 +16,10 @@ import javax.inject.Inject
 class HttpClientFactory @Inject constructor(
     private val authInterceptor: AuthInterceptor,
     private val apiKeyInterceptor: ApiKeyInterceptor,
-    private val tokenAuthenticator: TokenAuthenticator
+    private val tokenAuthenticator: TokenAuthenticator,
+    private val json: Json
 ) {
+
     @OptIn(ExperimentalSerializationApi::class)
     fun create(): Retrofit {
         // Logging Interceptor
@@ -35,15 +37,10 @@ class HttpClientFactory @Inject constructor(
             .authenticator(tokenAuthenticator)
             .build()
 
-        // Kotlinx Serialization configuration
-        val contentType = "application/json".toMediaType()
-        val json = Json { ignoreUnknownKeys = true }
-        val converterFactory = json.asConverterFactory(contentType)
-
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(converterFactory)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
     }
 }

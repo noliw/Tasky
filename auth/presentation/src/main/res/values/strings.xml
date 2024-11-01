@@ -7,4 +7,5 @@
     <string name="invalid_name">Invalid name</string>
     <string name="email_is_required">Please enter email</string>
     <string name="invalid_email">Please Enter a valid email</string>
+    <string name="successfully_logged_in">Successfully logged in</string>
 </resources>
