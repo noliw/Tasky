@@ -5,10 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,22 +24,20 @@ import com.nolawiworkineh.designsystem.Theme.TaskyTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskyBackground(
-    paddingValues: PaddingValues = PaddingValues(),
     content: @Composable () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black) // Entire screen background is black
+            .background(Color.Black)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .offset(y = paddingValues.calculateTopPadding()) // Offset by TopAppBar height
-                .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)) // Apply rounded corners
-                .background(Color.White) // White background
+                .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                .background(Color.White)
         ) {
-            content() // Place your content here
+            content()
         }
     }
 }

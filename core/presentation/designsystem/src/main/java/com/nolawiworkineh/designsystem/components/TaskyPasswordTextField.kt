@@ -57,7 +57,7 @@ fun TaskyPasswordTextField(
 
     val borderColor = when {
         isFocused -> TaskyTextGray
-        state.text.isNotEmpty() -> if (isError) TaskyRed else TaskyGreen
+        state.text.isNotEmpty() && isFocused -> if (isError) TaskyRed else TaskyGreen
         else -> TaskyLightGray
     }
 

@@ -46,7 +46,7 @@ class RegisterViewModel @Inject constructor(
                 val isValidName = userDataValidator.isValidName(currentName.toString())
                 _state.value = _state.value.copy(
                     isFullNameValid = isValidName,
-                    canRegister = isValidName && _state.value.isEmailValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
+                    enableRegisterButton = isValidName && _state.value.isEmailValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
                 )
             }
             .launchIn(viewModelScope)
@@ -58,7 +58,7 @@ class RegisterViewModel @Inject constructor(
                 val isEmailValid = userDataValidator.isValidEmail(currentEmail.toString())
                 _state.value = _state.value.copy(
                     isEmailValid = isEmailValid,
-                    canRegister = isEmailValid && _state.value.isFullNameValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
+                    enableRegisterButton = isEmailValid && _state.value.isFullNameValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
                 )
             }
             .launchIn(viewModelScope)
@@ -71,7 +71,7 @@ class RegisterViewModel @Inject constructor(
                     userDataValidator.validatePassword(currentPassword.toString())
                 _state.value = _state.value.copy(
                     passwordValidationState = passwordValidationState,
-                    canRegister = _state.value.isEmailValid && _state.value.isFullNameValid && passwordValidationState.isValidPassword && !_state.value.isRegistering
+                    enableRegisterButton = _state.value.isEmailValid && _state.value.isFullNameValid && passwordValidationState.isValidPassword && !_state.value.isRegistering
                 )
             }
             .launchIn(viewModelScope)

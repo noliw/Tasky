@@ -64,7 +64,7 @@ fun TaskyTextField(
     val shape = RoundedCornerShape(8.dp)
 
     val borderColor = when {
-        !isError && !isFocused && state.text.isNotEmpty() -> TaskyGreen
+        !isError && state.text.isNotEmpty() -> TaskyGreen
         isError && !isFocused && state.text.isNotEmpty() -> TaskyRed
         isFocused -> TaskyTextGray
         else -> TaskyLightGray
