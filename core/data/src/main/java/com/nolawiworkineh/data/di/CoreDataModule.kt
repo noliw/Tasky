@@ -7,6 +7,10 @@ import androidx.security.crypto.MasterKey
 import com.nolawiworkineh.core.domain.SessionStorage
 import com.nolawiworkineh.data.auth.EncryptedSessionStorage
 import com.nolawiworkineh.data.networking.HttpClientFactory
+import com.nolawiworkineh.data.networking.TokenApi
+import com.nolawiworkineh.data.networking.TokenAuthenticator
+import com.nolawiworkineh.data.networking.interceptors.ApiKeyInterceptor
+import com.nolawiworkineh.data.networking.interceptors.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +26,32 @@ object CoreDataModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit = HttpClientFactory().create()
+    fun provideTokenApi(retrofit: Retrofit): TokenApi =
+        retrofit.create(TokenApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideApiKeyInterceptor(): ApiKeyInterceptor =
+        ApiKeyInterceptor()
+
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(
+        sessionStorage: SessionStorage
+    ): AuthInterceptor = AuthInterceptor(sessionStorage)
+
+    @Provides
+    @Singleton
+    fun provideTokenAuthenticator(
+        sessionStorage: SessionStorage,
+        tokenApi: TokenApi
+    ): TokenAuthenticator = TokenAuthenticator(sessionStorage, tokenApi)
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(
+        httpClientFactory: HttpClientFactory
+    ): Retrofit = httpClientFactory.create()
 
 
     @Provides

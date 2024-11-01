@@ -1,21 +1,24 @@
-@file:OptIn(ExperimentalSerializationApi::class)
-
 package com.nolawiworkineh.data.networking
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.nolawiworkineh.core.data.BuildConfig
+import com.nolawiworkineh.data.networking.interceptors.ApiKeyInterceptor
+import com.nolawiworkineh.data.networking.interceptors.AuthInterceptor
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import timber.log.Timber
+import javax.inject.Inject
 
-
-class HttpClientFactory {
-
+class HttpClientFactory @Inject constructor(
+    private val authInterceptor: AuthInterceptor,
+    private val apiKeyInterceptor: ApiKeyInterceptor,
+    private val tokenAuthenticator: TokenAuthenticator
+) {
+    @OptIn(ExperimentalSerializationApi::class)
     fun create(): Retrofit {
         // Logging Interceptor
         val loggingInterceptor = HttpLoggingInterceptor { message ->
@@ -24,18 +27,12 @@ class HttpClientFactory {
             level = HttpLoggingInterceptor.Level.BODY
         }
 
-        // Header Interceptor for adding API key
-        val headerInterceptor = Interceptor { chain ->
-            val request = chain.request().newBuilder()
-                .header("x-api-key", BuildConfig.API_KEY)
-                .build()
-            chain.proceed(request)
-        }
-
-        // Build OkHttpClient with interceptors
+        // Build OkHttpClient with all interceptors
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(headerInterceptor)
+            .addInterceptor(apiKeyInterceptor)
+            .addInterceptor(authInterceptor)
+            .authenticator(tokenAuthenticator)
             .build()
 
         // Kotlinx Serialization configuration
@@ -43,8 +40,6 @@ class HttpClientFactory {
         val json = Json { ignoreUnknownKeys = true }
         val converterFactory = json.asConverterFactory(contentType)
 
-
-        // Create Retrofit instance with Kotlin serialization
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
