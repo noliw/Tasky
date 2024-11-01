@@ -15,10 +15,6 @@ class TokenAuthenticator @Inject constructor(
     private val tokenApi: TokenApi
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
-        // Don't retry if we failed to refresh the token
-        if (response.request.url.encodedPath.contains("accessToken")) {
-            return null
-        }
 
         val authInfo = runBlocking { sessionStorage.get() } ?: return null
 

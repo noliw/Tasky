@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
+import kotlin.coroutines.cancellation.CancellationException
 
 
 class EncryptedSessionStorage(
@@ -22,6 +23,7 @@ class EncryptedSessionStorage(
                     Json.decodeFromString<AuthInfoSerializable>(it).toAuthInfo()
                 }
             } catch (e: Exception) {
+                if(e is CancellationException) throw e
                 Timber.e(e, "Failed to retrieve auth info")
                 null
             }
@@ -41,6 +43,7 @@ class EncryptedSessionStorage(
                     .putString(KEY_AUTH_INFO, json)
                     .commit()
             } catch (e: Exception) {
+                if(e is CancellationException) throw e
                 Timber.e(e, "Failed to store auth info")
             }
         }
