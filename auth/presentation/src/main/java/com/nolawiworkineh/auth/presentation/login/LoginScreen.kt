@@ -152,7 +152,7 @@ private fun LoginScreen(
                 Text(
                     text = "SIGN UP",
                     color = Color.Blue.copy(alpha = 0.6f),
-                    modifier = Modifier.clickable {  }
+                    modifier = Modifier.clickable { onAction(LoginAction.OnNavigateToRegisterClick) }
                 )
             }
         }

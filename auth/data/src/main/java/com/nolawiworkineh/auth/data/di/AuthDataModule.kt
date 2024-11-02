@@ -7,6 +7,7 @@ import com.nolawiworkineh.auth.data.NamePatternValidator
 import com.nolawiworkineh.auth.domain.AuthRepository
 import com.nolawiworkineh.auth.domain.PatternValidator
 import com.nolawiworkineh.auth.domain.UserDataValidator
+import com.nolawiworkineh.core.domain.SessionStorage
 import com.nolawiworkineh.data.di.MainRetrofit
 import dagger.Module
 import dagger.Provides
@@ -54,8 +55,9 @@ object AuthModule {
     @Provides
     @Singleton
     fun provideAuthRepository(
-        authApiService: AuthApiService
+        authApiService: AuthApiService,
+        sessionStorage: SessionStorage
     ): AuthRepository {
-        return AuthRepositoryImpl(authApiService)
+        return AuthRepositoryImpl(authApiService, sessionStorage)
     }
 }
