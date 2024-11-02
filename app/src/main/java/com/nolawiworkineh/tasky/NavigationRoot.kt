@@ -14,10 +14,11 @@ import com.nolawiworkineh.auth.presentation.register.RegisterScreenRoot
 @Composable
 fun NavigationRoot(
     navController: NavHostController,
+    isLoggedIn: Boolean
 ) {
     NavHost(
         navController = navController,
-        startDestination = AuthScreenRoutes.RegisterScreen
+        startDestination = if (isLoggedIn) AgendaScreenRoutes.HomeScreen else AuthScreenRoutes.LoginScreen
     ) {
         authGraph(navController)
         agendaGraph(navController)
