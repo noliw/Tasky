@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.nolawiworkineh.core.data"
+    namespace = "com.nolawiworkineh.core.database"
 }
 
 dependencies {

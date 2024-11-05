@@ -1,4 +1,4 @@
-package com.nolawiworkineh.designsystem
+package com.nolawiworkineh.designsystem.Theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -72,7 +72,7 @@ val Typography = Typography(
     labelLarge = TextStyle(
         fontFamily = Inter,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
+        fontSize = 18.sp,
         lineHeight = 24.sp,
     ),
     headlineMedium = TextStyle(

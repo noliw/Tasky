@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_account">Create your account</string>
+    <string name="error_user_already_exists">User already exists</string>
+    <string name="registration_successful">Registration successful</string>
+    <string name="full_name_is_required">Full name is required</string>
+    <string name="invalid_name">Invalid name</string>
+    <string name="email_is_required">Please enter email</string>
+    <string name="invalid_email">Please Enter a valid email</string>
+    <string name="successfully_logged_in">Successfully logged in</string>
+    <string name="your_logged_in">You\'re Logged In</string>
+    <string name="email_or_password_is_incorrect">Email or password is incorrect</string>
+</resources>
