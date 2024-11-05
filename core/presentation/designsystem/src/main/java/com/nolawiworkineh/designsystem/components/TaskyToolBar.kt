@@ -50,17 +50,17 @@ import com.nolawiworkineh.designsystem.components.util.DropDownMenuItem
 @Composable
 fun TaskyTopAppBar(
     modifier: Modifier = Modifier,
-    title: String = "", // Default string title
+    title: String = "",
     showBackButton: Boolean = false,
-    isBlackToolBar: Boolean = true, // Determines whether toolbar is black
+    isBlackToolBar: Boolean = true,
     showEndIcon: Boolean = false,
     isWhiteText: Boolean = false,
     blackHeightFraction: Float = 0.16f,
-    customTitle: (@Composable () -> Unit)? = null, // Optional custom title content
-    navigationIcon: (@Composable () -> Unit)? = null, // Leading icon
-    actionIcons: (@Composable RowScope.() -> Unit)? = null, // Action icons on the right
+    customTitle: (@Composable () -> Unit)? = null,
+    navigationIcon: (@Composable () -> Unit)? = null,
+    actionIcons: (@Composable RowScope.() -> Unit)? = null,
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
-    endIcon: (@Composable () -> Unit)? = null, // Dynamic end icon composable
+    endIcon: (@Composable () -> Unit)? = null,
     menuItems: List<DropDownMenuItem> = emptyList(),
     onMenuItemClick: (Int) -> Unit = {},
     onBackClick: () -> Unit = {},
@@ -152,6 +152,8 @@ fun TaskyTopAppBar(
                                                 Icon(
                                                     imageVector = it,
                                                     contentDescription = item.title,
+                                                    tint = item.tint
+
                                                 )
                                             }
                                             Spacer(modifier = Modifier.width(8.dp))
