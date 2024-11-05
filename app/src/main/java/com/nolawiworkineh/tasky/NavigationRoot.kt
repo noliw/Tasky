@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.nolawiworkineh.agenda.presentation.AgendaScreenRoutes
-import com.nolawiworkineh.agenda.presentation.HomeScreen
+import com.nolawiworkineh.agenda.presentation.agenda.HomeScreen
 import com.nolawiworkineh.auth.presentation.AuthScreenRoutes
 import com.nolawiworkineh.auth.presentation.login.LoginScreenRoot
 import com.nolawiworkineh.auth.presentation.register.RegisterScreenRoot
