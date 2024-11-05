@@ -1,4 +1,4 @@
-package com.nolawiworkineh.core.data.auth
+package com.nolawiworkineh.data.auth
 
 import kotlinx.serialization.Serializable
 

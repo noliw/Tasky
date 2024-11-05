@@ -1,4 +1,4 @@
-package com.nolawiworkineh.auth.presentation.register
+package com.nolawiworkineh.auth.presentation.login
 
 
 import androidx.compose.foundation.text.input.TextFieldState
@@ -6,11 +6,7 @@ import com.nolawiworkineh.auth.domain.PasswordValidationState
 
 
 
-data class RegisterState(
-    // full name
-    val fullName: TextFieldState = TextFieldState(),
-    val isFullNameValid: Boolean = false,
-
+data class LoginState(
     // email
     val email: TextFieldState = TextFieldState(),
     val isEmailValid: Boolean = false,
@@ -20,8 +16,8 @@ data class RegisterState(
     val isPasswordVisible: Boolean = false,
     val passwordValidationState: PasswordValidationState = PasswordValidationState(),
 
-    // register
-    val isRegistering: Boolean = false,
-    val enableRegisterButton: Boolean = false
+    // login
+    val isLoggingIn: Boolean = false,
+    val enableLoginButton: Boolean = false
 )
 

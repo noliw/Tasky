@@ -156,7 +156,7 @@ private fun RegisterScreen(
 
             TaskyButton(text = "GET STARTED",
                 isLoading = state.isRegistering,
-                enabled = state.canRegister,
+                enabled = state.enableRegisterButton,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { onAction(RegisterAction.OnRegisterClick) }
 

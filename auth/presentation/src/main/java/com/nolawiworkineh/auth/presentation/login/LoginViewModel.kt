@@ -1,4 +1,4 @@
-package com.nolawiworkineh.auth.presentation.register
+package com.nolawiworkineh.auth.presentation.login
 
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
@@ -25,35 +25,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(
+class LoginViewModel @Inject constructor(
     private val userDataValidator: UserDataValidator,
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val eventChannel = Channel<RegisterEvent>()
+    private val eventChannel = Channel<LoginEvent>()
     val events = eventChannel.receiveAsFlow()
 
-    private val _state = MutableStateFlow(RegisterState())
-    var state: StateFlow<RegisterState> = _state.onStart {
-        observeNameChanges()
+
+    private val _state = MutableStateFlow(LoginState())
+    var state: StateFlow<LoginState> = _state.onStart {
         observeEmailChanges()
         observePasswordChanges()
     }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), RegisterState())
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LoginState())
 
-    private fun observeNameChanges() {
-        snapshotFlow { _state.value.fullName.text }
-            .onEach { currentName ->
-                val isValidName = userDataValidator.isValidName(currentName.toString())
-                _state.update {
-                    it.copy(
-                        isFullNameValid = isValidName,
-                        enableRegisterButton = isValidName && _state.value.isEmailValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
-                    )
-                }
-            }
-            .launchIn(viewModelScope)
-    }
 
     private fun observeEmailChanges() {
         snapshotFlow { _state.value.email.text }
@@ -62,7 +49,7 @@ class RegisterViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         isEmailValid = isEmailValid,
-                        enableRegisterButton = isEmailValid && _state.value.isFullNameValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
+                        enableLoginButton = isEmailValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isLoggingIn
                     )
                 }
             }
@@ -74,55 +61,59 @@ class RegisterViewModel @Inject constructor(
             .onEach { currentPassword ->
                 val passwordValidationState =
                     userDataValidator.validatePassword(currentPassword.toString())
-                _state.update {
-                    it.copy(
+                _state.update  {
+                   it.copy(
                         passwordValidationState = passwordValidationState,
-                        enableRegisterButton = _state.value.isEmailValid && _state.value.isFullNameValid && passwordValidationState.isValidPassword && !_state.value.isRegistering
+                        enableLoginButton = _state.value.isEmailValid && passwordValidationState.isValidPassword && !_state.value.isLoggingIn
                     )
                 }
             }
             .launchIn(viewModelScope)
     }
 
-    fun onAction(action: RegisterAction) {
+    fun onAction(action: LoginAction) {
         when (action) {
-            RegisterAction.OnRegisterClick -> {
-                register()
-            }
-
-            RegisterAction.OnTogglePasswordVisibilityClick -> {
+            is LoginAction.OnLoginClick -> login()
+            is LoginAction.OnTogglePasswordVisibilityClick -> {
                 _state.value = _state.value.copy(
                     isPasswordVisible = !_state.value.isPasswordVisible
                 )
-
             }
             else -> {}
         }
+
     }
 
-    private fun register() {
+    private fun login() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isRegistering = true)
-            val result = authRepository.register(
-                fullName = _state.value.fullName.text.trim().toString(),
+            _state.value = _state.value.copy(isLoggingIn = true)
+            val result = authRepository.login(
                 email = _state.value.email.text.toString().trim(),
                 password = _state.value.password.text.toString()
             )
-            _state.value = _state.value.copy(isRegistering = false)
+            _state.value = _state.value.copy(isLoggingIn = true)
+
             when (result) {
                 is Result.Error -> {
-                    if (result.error == DataError.Network.CONFLICT) {
-                        eventChannel.send(RegisterEvent.RegistrationFailure(UiText.StringResource(R.string.error_user_already_exists)))
+                    if (result.error == DataError.Network.UNAUTHORIZED) {
+                        eventChannel.send(
+                            LoginEvent.LoginFailure(
+                                UiText.StringResource(
+                                    R.string.email_or_password_is_incorrect
+                                )
+                            )
+                        )
                         return@launch
                     } else {
-                        eventChannel.send(RegisterEvent.RegistrationFailure(result.error.toUiText()))
+                        eventChannel.send(LoginEvent.LoginFailure(result.error.toUiText()))
                     }
                 }
 
                 is Result.Success -> {
-                    eventChannel.send(RegisterEvent.RegistrationSuccess)
+                    eventChannel.send(LoginEvent.LoginSuccess)
                 }
             }
         }
+
     }
 }

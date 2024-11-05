@@ -1,6 +1,6 @@
-package com.nolawiworkineh.core.data.auth
+package com.nolawiworkineh.data.auth
 
-import com.nolawiworkineh.core.domain.AuthInfo.AuthInfo
+import com.nolawiworkineh.core.domain.authInfo.AuthInfo
 
 // Converts an in-memory AuthInfo object to its serializable version (AuthInfoSerializable).
 fun AuthInfo.toAuthInfoSerializable(): AuthInfoSerializable {
