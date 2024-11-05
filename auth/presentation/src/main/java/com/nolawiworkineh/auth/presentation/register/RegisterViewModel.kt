@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,10 +45,12 @@ class RegisterViewModel @Inject constructor(
         snapshotFlow { _state.value.fullName.text }
             .onEach { currentName ->
                 val isValidName = userDataValidator.isValidName(currentName.toString())
-                _state.value = _state.value.copy(
-                    isFullNameValid = isValidName,
-                    enableRegisterButton = isValidName && _state.value.isEmailValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
-                )
+                _state.update {
+                    it.copy(
+                        isFullNameValid = isValidName,
+                        enableRegisterButton = isValidName && _state.value.isEmailValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
+                    )
+                }
             }
             .launchIn(viewModelScope)
     }
@@ -56,10 +59,12 @@ class RegisterViewModel @Inject constructor(
         snapshotFlow { _state.value.email.text }
             .onEach { currentEmail ->
                 val isEmailValid = userDataValidator.isValidEmail(currentEmail.toString())
-                _state.value = _state.value.copy(
-                    isEmailValid = isEmailValid,
-                    enableRegisterButton = isEmailValid && _state.value.isFullNameValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
-                )
+                _state.update {
+                    it.copy(
+                        isEmailValid = isEmailValid,
+                        enableRegisterButton = isEmailValid && _state.value.isFullNameValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isRegistering
+                    )
+                }
             }
             .launchIn(viewModelScope)
     }
@@ -69,10 +74,12 @@ class RegisterViewModel @Inject constructor(
             .onEach { currentPassword ->
                 val passwordValidationState =
                     userDataValidator.validatePassword(currentPassword.toString())
-                _state.value = _state.value.copy(
-                    passwordValidationState = passwordValidationState,
-                    enableRegisterButton = _state.value.isEmailValid && _state.value.isFullNameValid && passwordValidationState.isValidPassword && !_state.value.isRegistering
-                )
+                _state.update {
+                    it.copy(
+                        passwordValidationState = passwordValidationState,
+                        enableRegisterButton = _state.value.isEmailValid && _state.value.isFullNameValid && passwordValidationState.isValidPassword && !_state.value.isRegistering
+                    )
+                }
             }
             .launchIn(viewModelScope)
     }

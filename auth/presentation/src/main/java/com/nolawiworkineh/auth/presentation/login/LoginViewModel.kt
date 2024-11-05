@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,10 +46,12 @@ class LoginViewModel @Inject constructor(
         snapshotFlow { _state.value.email.text }
             .onEach { currentEmail ->
                 val isEmailValid = userDataValidator.isValidEmail(currentEmail.toString())
-                _state.value = _state.value.copy(
-                    isEmailValid = isEmailValid,
-                    enableLoginButton = isEmailValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isLoggingIn
-                )
+                _state.update {
+                    it.copy(
+                        isEmailValid = isEmailValid,
+                        enableLoginButton = isEmailValid && _state.value.passwordValidationState.isValidPassword && !_state.value.isLoggingIn
+                    )
+                }
             }
             .launchIn(viewModelScope)
     }
@@ -58,10 +61,12 @@ class LoginViewModel @Inject constructor(
             .onEach { currentPassword ->
                 val passwordValidationState =
                     userDataValidator.validatePassword(currentPassword.toString())
-                _state.value = _state.value.copy(
-                    passwordValidationState = passwordValidationState,
-                    enableLoginButton = _state.value.isEmailValid && passwordValidationState.isValidPassword && !_state.value.isLoggingIn
-                )
+                _state.update  {
+                   it.copy(
+                        passwordValidationState = passwordValidationState,
+                        enableLoginButton = _state.value.isEmailValid && passwordValidationState.isValidPassword && !_state.value.isLoggingIn
+                    )
+                }
             }
             .launchIn(viewModelScope)
     }
