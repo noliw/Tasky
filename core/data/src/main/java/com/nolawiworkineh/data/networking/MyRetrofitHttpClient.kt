@@ -2,35 +2,15 @@ package com.nolawiworkineh.data.networking
 
 import com.nolawiworkineh.core.domain.util.DataError
 import com.nolawiworkineh.core.domain.util.Result
+import kotlinx.coroutines.CancellationException
+import kotlinx.serialization.SerializationException
 import retrofit2.Response
 import java.io.IOException
 import java.net.UnknownHostException
-import kotlinx.serialization.SerializationException
-import kotlinx.coroutines.CancellationException
 
-suspend inline fun <reified Response : Any> ApiActionsService.get(
-    route: String,
-    queryParameters: Map<String, Any?> = mapOf()
-): Result<Response, DataError.Network> {
-    return safeCall { getRequest(route, queryParameters) }
-}
-
-suspend inline fun <reified Response : Any> ApiActionsService.post(
-    route: String,
-    body: Any
-): Result<Response, DataError.Network> {
-    return safeCall { postRequest(route, body) }
-}
-
-suspend inline fun <reified Response : Any> ApiActionsService.delete(
-    route: String,
-    queryParameters: Map<String, Any?> = mapOf()
-): Result<Response, DataError.Network> {
-    return safeCall { deleteRequest(route, queryParameters) }
-}
-
-
-suspend inline fun <reified T> safeCall(execute: () -> Response<T>): Result<T, DataError.Network> {
+suspend fun <T : Any> safeCall(
+    execute: suspend () -> Response<T>
+): Result<T, DataError.Network> {
     val response = try {
         // Execute the Retrofit call and get the response
         execute()
@@ -57,7 +37,13 @@ suspend inline fun <reified T> safeCall(execute: () -> Response<T>): Result<T, D
     return mapServerResponseToResult(response)
 }
 
-suspend inline fun <reified T> mapServerResponseToResult(response: Response<T>): Result<T, DataError.Network> {
+suspend fun <T : Any, S> S.safeApiCall(
+    apiCall: suspend S.() -> Response<T>
+): Result<T, DataError.Network> {
+    return safeCall { apiCall() }
+}
+
+suspend  fun <T> mapServerResponseToResult(response: Response<T>): Result<T, DataError.Network> {
     return when {
         // If the response is successful (status code in 200-299)
         response.isSuccessful -> {

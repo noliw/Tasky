@@ -22,6 +22,6 @@ data class RegisterState(
 
     // register
     val isRegistering: Boolean = false,
-    val canRegister: Boolean = false
+    val enableRegisterButton: Boolean = false
 )
 

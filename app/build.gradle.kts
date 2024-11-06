@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.tasky.android.application.compose)
     alias(libs.plugins.tasky.jvm.retrofit)
+    alias(libs.plugins.hilt.android.gradle)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -63,7 +65,11 @@ dependencies {
     implementation(libs.timber)
 
     // Di
-    implementation(libs.bundles.dagger)
+    implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.hilt.navigation.compose)
+    ksp(libs.dagger.hilt.android.compiler)
+    testImplementation(libs.dagger.hilt.android.testing)
 
     implementation(projects.auth.data)
     implementation(projects.auth.domain)

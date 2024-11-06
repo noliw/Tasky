@@ -36,23 +36,30 @@ import com.nolawiworkineh.designsystem.Theme.EyeClosedIcon
 import com.nolawiworkineh.designsystem.Theme.EyeOpenIcon
 import com.nolawiworkineh.designsystem.Theme.TaskyBlack
 import com.nolawiworkineh.designsystem.Theme.TaskyGray
+import com.nolawiworkineh.designsystem.Theme.TaskyGreen
 import com.nolawiworkineh.designsystem.Theme.TaskyLightGray
+import com.nolawiworkineh.designsystem.Theme.TaskyRed
 import com.nolawiworkineh.designsystem.Theme.TaskyTextGray
 import com.nolawiworkineh.designsystem.Theme.TaskyTheme
 
 @Composable
 fun TaskyPasswordTextField(
     state: TextFieldState,
+    hint: String,
     isPasswordVisible: Boolean,
     onTogglePasswordVisibility: () -> Unit,
-    hint: String,
     modifier: Modifier = Modifier,
+    isError: Boolean = false,
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
     val shape = RoundedCornerShape(8.dp)
 
-    val borderColor = if (isFocused) TaskyTextGray else TaskyLightGray
+    val borderColor = when {
+        isFocused -> TaskyTextGray
+        state.text.isNotEmpty() && isFocused -> if (isError) TaskyRed else TaskyGreen
+        else -> TaskyLightGray
+    }
 
     BasicSecureTextField(
         state = state,
@@ -78,19 +85,18 @@ fun TaskyPasswordTextField(
             )
             .padding(horizontal = 12.dp, vertical = 8.dp)
             .height(48.dp)
-            .onFocusChanged {
-                isFocused = it.isFocused
+            .onFocusChanged { focusState ->
+                isFocused = focusState.isFocused
             },
         decorator = { innerBox ->
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(
                     modifier = Modifier.weight(1f)
                 ) {
-                    if (state.text.isEmpty() && !isFocused) {
+                    if (state.text.isEmpty()) {
                         Text(
                             text = hint,
                             color = TaskyGray,
@@ -99,29 +105,20 @@ fun TaskyPasswordTextField(
                     }
                     innerBox()
                 }
-                if (onTogglePasswordVisibility != null) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Icon(
-                        imageVector = if (isPasswordVisible) {
-                            EyeOpenIcon
-                        } else {
-                            EyeClosedIcon
-                        },
-                        contentDescription = if (isPasswordVisible) {
-                            "Hide password"
-                        } else {
-                            "Show password"
-                        },
-                        tint = TaskyTextGray,
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                            .clickable(onClick = onTogglePasswordVisibility)
-                    )
-                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    imageVector = if (isPasswordVisible) EyeOpenIcon else EyeClosedIcon,
+                    contentDescription = if (isPasswordVisible) "Hide password" else "Show password",
+                    tint = TaskyTextGray,
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .clickable(onClick = onTogglePasswordVisibility)
+                )
             }
         }
     )
 }
+
 
 
 

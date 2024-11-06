@@ -1,5 +1,7 @@
 package com.nolawiworkineh.designsystem.components
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FabPosition
@@ -38,8 +40,21 @@ fun TaskyScaffold(
         modifier = modifier,
         containerColor = TaskyBlack
     ) { padding ->
-        TaskyBackground(paddingValues = padding) {
-            content()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = padding.calculateTopPadding())
+        ) {
+            TaskyBackground {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = padding.calculateBottomPadding())
+                ) {
+                    content()
+                }
+            }
         }
     }
 }
+
