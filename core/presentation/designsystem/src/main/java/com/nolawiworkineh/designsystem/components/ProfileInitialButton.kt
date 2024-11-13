@@ -23,10 +23,10 @@ import com.nolawiworkineh.designsystem.Theme.TaskyLightGray
 import com.nolawiworkineh.designsystem.Theme.TaskyTheme
 
 @Composable
-fun ProfileIcon(
-    modifier: Modifier = Modifier,
+private fun ProfileIcon(
     initials: String,
     onProfileClick: () -> Unit,
+    modifier: Modifier = Modifier,
     ) {
     Box(
         modifier = modifier
