@@ -52,3 +52,7 @@ val DeleteIcon: ImageVector
 val CrossIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.x)
+
+val LogoutIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.log_out)

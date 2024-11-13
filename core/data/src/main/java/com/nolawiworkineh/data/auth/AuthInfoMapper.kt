@@ -7,7 +7,9 @@ fun AuthInfo.toAuthInfoSerializable(): AuthInfoSerializable {
     return AuthInfoSerializable(
         accessToken = accessToken,
         refreshToken = refreshToken,
-        userId = userId
+        userId = userId,
+        fullName = fullName,
+        accessTokenExpirationTimestamp = accessTokenExpirationTimestamp,
     )
 }
 
@@ -16,6 +18,8 @@ fun AuthInfoSerializable.toAuthInfo(): AuthInfo {
     return AuthInfo(
         accessToken = accessToken,
         refreshToken = refreshToken,
-        userId = userId
+        userId = userId,
+        fullName = fullName,
+        accessTokenExpirationTimestamp = accessTokenExpirationTimestamp,
     )
 }

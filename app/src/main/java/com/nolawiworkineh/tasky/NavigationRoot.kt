@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.nolawiworkineh.agenda.presentation.AgendaScreenRoutes
-import com.nolawiworkineh.agenda.presentation.HomeScreen
+import com.nolawiworkineh.agenda.presentation.agenda_overview.AgendaScreenRoot
 import com.nolawiworkineh.auth.presentation.AuthScreenRoutes
 import com.nolawiworkineh.auth.presentation.login.LoginScreenRoot
 import com.nolawiworkineh.auth.presentation.register.RegisterScreenRoot
@@ -71,7 +71,7 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
 
 private fun NavGraphBuilder.agendaGraph(navController: NavHostController) {
     composable<AgendaScreenRoutes.HomeScreen> {
-        HomeScreen()
+        AgendaScreenRoot()
     }
 
 

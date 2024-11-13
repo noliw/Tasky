@@ -32,8 +32,9 @@ class AuthRepositoryImpl @Inject constructor(
                 AuthInfo(
                     accessToken = response.data.accessToken,
                     refreshToken = response.data.refreshToken,
-                    userId = response.data.userId
-
+                    userId = response.data.userId,
+                    fullName = response.data.fullName,
+                    accessTokenExpirationTimestamp = response.data.accessTokenExpirationTimestamp
                 )
             )
         }
