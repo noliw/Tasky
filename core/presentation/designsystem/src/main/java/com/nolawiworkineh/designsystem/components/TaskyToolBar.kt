@@ -2,7 +2,6 @@
 
 package com.nolawiworkineh.designsystem.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -19,9 +18,9 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -60,7 +59,7 @@ fun TaskyTopAppBar(
     navigationIcon: (@Composable () -> Unit)? = null,
     actionIcons: (@Composable RowScope.() -> Unit)? = null,
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
-    endIcon: (@Composable () -> Unit)? = null,
+    endIcon: (@Composable (onClick: () -> Unit) -> Unit)? = null,
     menuItems: List<DropDownMenuItem> = emptyList(),
     onMenuItemClick: (Int) -> Unit = {},
     onBackClick: () -> Unit = {},
@@ -74,21 +73,23 @@ fun TaskyTopAppBar(
     TopAppBar(
 
         title = {
-                Box(
-                    modifier = Modifier.fillMaxSize().padding(end = if(customTitle != null) 18.dp else 0.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (customTitle != null) {
-                        customTitle()
-                    } else {
-                        Text(
-                            text = title,
-                            color = if (isWhiteText) Color.White else Color.Black,
-                            style = MaterialTheme.typography.labelLarge
-                        )
-                    }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(end = if (customTitle != null) 18.dp else 0.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (customTitle != null) {
+                    customTitle()
+                } else {
+                    Text(
+                        text = title,
+                        color = if (isWhiteText) Color.White else Color.Black,
+                        style = MaterialTheme.typography.labelLarge
+                    )
                 }
-            },
+            }
+        },
 
         modifier = modifier.height(toolbarHeight),
 
@@ -96,87 +97,80 @@ fun TaskyTopAppBar(
         scrollBehavior = scrollBehavior,
 
         colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = if (isBlackToolBar) Color.Black else Color.White,
-            ),
+            containerColor = if (isBlackToolBar) Color.Black else Color.White,
+        ),
 
         navigationIcon = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .wrapContentSize(align = Alignment.Center)
-                ) {
-                    if (showBackButton) {
-                        IconButton(onClick = onBackClick) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back",
-                                tint = if (isWhiteText) Color.White else Color.Black
-                            )
-                        }
-                    } else {
-                        navigationIcon?.invoke()
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .wrapContentSize(align = Alignment.Center)
+            ) {
+                if (showBackButton) {
+                    IconButton(onClick = onBackClick) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = if (isWhiteText) Color.White else Color.Black
+                        )
                     }
+                } else {
+                    navigationIcon?.invoke()
                 }
-            },
+            }
+        },
 
         actions = {
-                Row(
-                    modifier = Modifier
-                        .fillMaxHeight(), // Ensure actions take the full height
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // If actionIcons are provided, invoke them (e.g., Save, Edit)
-                    actionIcons?.invoke(this)
+            Row(
+                modifier = Modifier
+                    .fillMaxHeight(), // Ensure actions take the full height
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // If actionIcons are provided, invoke them (e.g., Save, Edit)
+                actionIcons?.invoke(this)
 
-                    // Handle the dynamic end icon and menu items
-                    if (showEndIcon) {
-                        if (menuItems.isNotEmpty()) {  // Show dropdown only if there are menu items
-                            Box {
-                                // Dropdown menu items
-                                DropdownMenu(
-                                    expanded = isDropDownOpen,
-                                    onDismissRequest = { isDropDownOpen = false }
-                                ) {
-                                    menuItems.forEachIndexed { index, item ->
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            modifier = Modifier
-                                                .clickable {
-                                                    onMenuItemClick(index)
-                                                    isDropDownOpen = false
-                                                }
-                                                .fillMaxWidth()
-                                                .padding(horizontal = 16.dp)
-                                        ) {
-                                            item.icon?.let {
-                                                Icon(
-                                                    imageVector = it,
-                                                    contentDescription = item.title,
-                                                    tint = item.tint
+                // Handle the dynamic end icon and menu items
+                if (endIcon != null) {
+                    endIcon { isDropDownOpen = !isDropDownOpen }
 
-                                                )
-                                            }
-                                            Spacer(modifier = Modifier.width(8.dp))
-                                            Text(text = item.title)
+                    // Dropdown menu items - render after the IconButton
+                    DropdownMenu(
+                        expanded = isDropDownOpen,
+                        onDismissRequest = { isDropDownOpen = false }
+                    ) {
+                        menuItems.forEachIndexed { index, item ->
+                            DropdownMenuItem(
+                                text = {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 16.dp)
+                                    ) {
+                                        item.icon?.let {
+                                            Icon(
+                                                imageVector = it,
+                                                contentDescription = item.title,
+                                                tint = item.tint
+                                            )
                                         }
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(text = item.title)
                                     }
+                                },
+                                onClick = {
+                                    onMenuItemClick(index)
+                                    isDropDownOpen = false
                                 }
-
-                                // IconButton to open the dropdown
-                                IconButton(onClick = { isDropDownOpen = true }) {
-                                    Icon(
-                                        imageVector = Icons.Default.MoreVert,
-                                        contentDescription = "Menu",
-                                        tint = if (isWhiteText) Color.White else Color.Black
-                                    )
-                                }
-                            }
-                        } else {
-                            endIcon?.invoke()
+                            )
                         }
                     }
                 }
+            }
         }
+
+
+
     )
 }
 

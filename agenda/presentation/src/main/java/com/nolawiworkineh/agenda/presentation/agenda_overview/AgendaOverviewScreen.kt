@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,6 +27,7 @@ import com.nolawiworkineh.designsystem.Theme.PlusIcon
 import com.nolawiworkineh.designsystem.Theme.TaskyRed
 import com.nolawiworkineh.designsystem.Theme.TaskyTheme
 import com.nolawiworkineh.designsystem.components.CalendarDaysRow
+import com.nolawiworkineh.designsystem.components.ProfileIcon
 import com.nolawiworkineh.designsystem.components.TaskyDatePicker
 import com.nolawiworkineh.designsystem.components.TaskyFloatingActionButton
 import com.nolawiworkineh.designsystem.components.TaskyScaffold
@@ -58,6 +60,7 @@ private fun AgendaScreen(
             TaskyTopAppBar(
                 modifier = Modifier,
                 isBlackToolBar = true,
+                blackHeightFraction = 0.13f,
                 showEndIcon = true,
                 isWhiteText = true,
                 customTitle = {
@@ -75,6 +78,7 @@ private fun AgendaScreen(
                         ) {
                             Text(
                                 text = state.selectedDate.formatMonth(),
+                                fontWeight = FontWeight.Bold,
                                 style = MaterialTheme.typography.titleLarge
                             )
                             Icon(
@@ -85,8 +89,16 @@ private fun AgendaScreen(
                     }
 
                 },
-                actionIcons = {},
-                endIcon = {},
+                actionIcons = {
+
+                },
+                endIcon = {onClick ->
+                    ProfileIcon(
+                        initials = state.initials,
+                        onProfileClick = onClick,
+                        modifier = Modifier
+                    )
+                },
                 menuItems = listOf(
                     DropDownMenuItem(
                         title = "Logout",
